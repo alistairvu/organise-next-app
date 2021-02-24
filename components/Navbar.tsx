@@ -3,12 +3,11 @@ import { useState } from "react"
 import { FiMenu, FiX } from "react-icons/fi"
 import Link from "next/link"
 import useUser from "../zustand/useUser"
-import { useCallback } from "react"
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const userInfo = useUser(useCallback((state) => state.userInfo, []))
-  const logoutUser = useUser(useCallback((state) => state.logoutUser, []))
+  const userInfo = useUser((state) => state.userInfo)
+  const logoutUser = useUser((state) => state.logoutUser)
 
   return (
     <Flex
