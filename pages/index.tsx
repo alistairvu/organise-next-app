@@ -1,8 +1,9 @@
 import Head from "next/head"
-import { Center, Stack, Heading, Link, Code, Text } from "@chakra-ui/react"
+import { Heading, Text } from "@chakra-ui/react"
 import useUser from "../zustand/useUser"
+import React from "react"
 
-export default function Home() {
+const Home = () => {
   const userInfo = useUser((state) => state.userInfo)
 
   return (
@@ -23,3 +24,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default React.memo(Home)
