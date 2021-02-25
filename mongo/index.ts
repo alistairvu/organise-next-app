@@ -1,10 +1,14 @@
-import { connect, connection } from "mongoose"
-import type { NextApiRequest, NextApiResponse } from "next"
+import { connect, connection, models } from "mongoose"
+import User from "./models/userModel"
+import ToDo from "./models/todoModel"
 
 const connectDB = () => {
   if (connection.readyState >= 1) {
     return
   }
+
+  models.ToDo = ToDo
+  models.User = User
 
   return connect(process.env.MONGO_URI, {
     useNewUrlParser: true,

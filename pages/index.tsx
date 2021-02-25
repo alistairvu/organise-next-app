@@ -2,6 +2,7 @@ import Head from "next/head"
 import { Heading, Text } from "@chakra-ui/react"
 import useUser from "../zustand/useUser"
 import React from "react"
+import { ToDoList } from "../components"
 
 const Home = () => {
   const userInfo = useUser((state) => state.userInfo)
@@ -14,12 +15,18 @@ const Home = () => {
       </Head>
 
       <main>
-        <Heading size="2xl" textAlign="center">
-          Welcome!
-        </Heading>
-        <Text textAlign="center" fontSize="xl">
-          {userInfo.id ? "You are logged in!" : "Login to begin!"}
-        </Text>
+        {userInfo.id ? (
+          <ToDoList />
+        ) : (
+          <>
+            <Heading size="2xl" textAlign="center">
+              Welcome!
+            </Heading>
+            <Text textAlign="center" fontSize="xl">
+              Login to begin!
+            </Text>
+          </>
+        )}
       </main>
     </div>
   )

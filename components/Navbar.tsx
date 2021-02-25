@@ -39,14 +39,18 @@ export const Navbar = () => {
           <>
             <Text>Hello {userInfo.name.split(" ")[0]}!</Text>
             <Link href="/">Home</Link>
-            <Box onClick={logoutUser} cursor="pointer">
+            <Button colorScheme="green" onClick={logoutUser} cursor="pointer">
               Logout
-            </Box>
+            </Button>
           </>
         ) : (
           <>
-            <Link href="/login">Log In</Link>
             <Link href="/register">Register</Link>
+            <Link href="/login">
+              <Button colorScheme="green" variant="solid">
+                Log In
+              </Button>
+            </Link>
           </>
         )}
       </NavLinkContainer>
