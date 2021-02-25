@@ -8,8 +8,8 @@ import {
   CloseButton,
 } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
-import useToDo from "../zustand/useTodo"
-import { FiX } from "react-icons/fi"
+import { deleteToDo, updateToDo } from "../redux/actions/toDoActions"
+import { useDispatch } from "react-redux"
 
 interface ToDoItemProps {
   _id: string
@@ -26,25 +26,22 @@ export const ToDoItem = ({
 }: ToDoItemProps) => {
   const [newContent, setNewContent] = useState(content)
   const [newCompleted, setNewCompleted] = useState(isCompleted)
-  const [isAlertOpen, setIsAlertOpen] = useState(false)
-
-  const [deleteToDo, updateToDo] = useToDo((state) => [
-    state.deleteToDo,
-    state.updateToDo,
-  ])
+  const dispatch = useDispatch()
 
   const editHandler = () => {
-    updateToDo({
-      _id,
-      content: newContent,
-      isCompleted: newCompleted,
-      user: user,
-    })
+    dispatch(
+      updateToDo({
+        _id,
+        content: newContent,
+        isCompleted: newCompleted,
+        user: user,
+      })
+    )
   }
 
   const deleteHandler = () => {
     if (confirm("Are you sure?")) {
-      deleteToDo(_id)
+      dispatch(deleteToDo(_id))
     }
   }
 

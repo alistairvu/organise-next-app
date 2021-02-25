@@ -1,4 +1,3 @@
-import useToDo from "../zustand/useTodo"
 import { ToDoItem } from "./ToDoItem"
 import {
   Heading,
@@ -9,22 +8,21 @@ import {
   Center,
   Spinner,
 } from "@chakra-ui/react"
-import useUser from "../zustand/useUser"
 import { useEffect } from "react"
 import { ToDoInput } from "./ToDoInput"
+import { fetchToDos } from "../redux/actions/toDoActions"
+import { useDispatch, useSelector } from "react-redux"
+import { rootState } from "../redux"
 
 export const ToDoList = () => {
-  const userInfo = useUser((state) => state.userInfo)
-  const [loading, syncing, error, toDoItems, fetchToDo] = useToDo((state) => [
-    state.loading,
-    state.syncing,
-    state.error,
-    state.toDoItems,
-    state.fetchToDo,
-  ])
+  const userInfo = useSelector((state: rootState) => state.user.userInfo)
+  const dispatch = useDispatch()
+  const { loading, syncing, toDoItems } = useSelector(
+    (state: rootState) => state.toDo
+  )
 
   useEffect(() => {
-    fetchToDo(userInfo.id)
+    dispatch(fetchToDos())
   }, [userInfo.id])
 
   return (

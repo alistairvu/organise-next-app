@@ -2,12 +2,14 @@ import { Box, Text, Stack, Flex, Spacer, Button } from "@chakra-ui/react"
 import { useState } from "react"
 import { FiMenu, FiX } from "react-icons/fi"
 import Link from "next/link"
-import useUser from "../zustand/useUser"
+import { useSelector, useDispatch } from "react-redux"
+import { rootState } from "../redux"
+import { logoutUser } from "../redux/slices/userSlice"
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const userInfo = useUser((state) => state.userInfo)
-  const logoutUser = useUser((state) => state.logoutUser)
+  const userInfo = useSelector((state: rootState) => state.user.userInfo)
+  const dispatch = useDispatch()
 
   return (
     <Flex
@@ -39,7 +41,11 @@ export const Navbar = () => {
           <>
             <Text>Hello {userInfo.name.split(" ")[0]}!</Text>
             <Link href="/">Home</Link>
-            <Button colorScheme="green" onClick={logoutUser} cursor="pointer">
+            <Button
+              colorScheme="green"
+              onClick={() => dispatch(logoutUser())}
+              cursor="pointer"
+            >
               Logout
             </Button>
           </>

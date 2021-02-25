@@ -9,35 +9,28 @@ import {
   useToast,
   Text,
 } from "@chakra-ui/react"
-import useUser from "../zustand/useUser"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Formik, Form } from "formik"
 import Head from "next/head"
 import Link from "next/link"
 import React from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { rootState } from "../redux"
+import { registerUser } from "../redux/actions/userActions"
+import { resetError } from "../redux/slices/userSlice"
 
 const Register = () => {
-  const [isFirst, setIsFirst] = useState(true)
-  const [
-    userInfo,
-    registerUser,
-    loading,
-    error,
-    resetError,
-  ] = useUser((state) => [
-    state.userInfo,
-    state.registerUser,
-    state.loading,
-    state.error,
-    state.resetError,
-  ])
+  const { userInfo, loading, error } = useSelector(
+    (state: rootState) => state.user
+  )
+  const dispatch = useDispatch()
   const router = useRouter()
 
   const toast = useToast()
 
   useEffect(() => {
-    resetError()
+    dispatch(resetError())
   }, [])
 
   useEffect(() => {
@@ -45,22 +38,6 @@ const Register = () => {
       router.replace("/")
     }
   }, [userInfo])
-
-  useEffect(() => {
-    if (error) {
-      if (isFirst) {
-        setIsFirst(false)
-      } else {
-        toast({
-          title: error,
-          description: "Please try again",
-          status: "error",
-          duration: 1000,
-          isClosable: true,
-        })
-      }
-    }
-  }, [error])
 
   const submitHandler = ({ name, email, password, confirmPassword }) => {
     if (password !== confirmPassword) {
@@ -73,8 +50,20 @@ const Register = () => {
       })
       return
     }
-    registerUser(name, email, password)
+    dispatch(registerUser({ name, email, password }))
   }
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: error,
+        description: "Please try again",
+        status: "error",
+        duration: 1000,
+        isClosable: true,
+      })
+    }
+  }, [error])
 
   return (
     <Center>

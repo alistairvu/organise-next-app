@@ -1,11 +1,12 @@
 import Head from "next/head"
 import { Heading, Text } from "@chakra-ui/react"
-import useUser from "../zustand/useUser"
 import React from "react"
 import { ToDoList } from "../components"
+import { rootState } from "../redux"
+import { useSelector } from "react-redux"
 
 const Home = () => {
-  const userInfo = useUser((state) => state.userInfo)
+  const userInfo = useSelector((state: rootState) => state.user.userInfo)
 
   return (
     <div>

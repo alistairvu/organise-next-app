@@ -9,21 +9,21 @@ import {
   useToast,
   Text,
 } from "@chakra-ui/react"
-import useUser from "../zustand/useUser"
+import { useDispatch, useSelector } from "react-redux"
+import { rootState } from "../redux"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { Formik, Form, Field } from "formik"
+import { Formik, Form } from "formik"
 import Head from "next/head"
 import Link from "next/link"
 import React from "react"
+import { loginUser } from "../redux/actions/userActions"
 
 const Login = () => {
-  const [userInfo, loginUser, loading, error] = useUser((state) => [
-    state.userInfo,
-    state.loginUser,
-    state.loading,
-    state.error,
-  ])
+  const { userInfo, loading, error } = useSelector(
+    (state: rootState) => state.user
+  )
+  const dispatch = useDispatch()
   const router = useRouter()
 
   const toast = useToast()
@@ -46,9 +46,8 @@ const Login = () => {
     }
   }, [error])
 
-  const submitHandler = ({ email, password }) => {
-    console.log({ email, password })
-    loginUser(email, password)
+  const submitHandler = (data: { email: string; password: string }) => {
+    dispatch(loginUser(data))
   }
 
   return (
