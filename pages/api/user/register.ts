@@ -28,12 +28,13 @@ const registerUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const salt = await bcrypt.genSalt(10)
     const userPassword = await bcrypt.hash(password, salt)
-    const newUser = await User.create({
+    const newUser = new User({
       name,
       email,
       password: userPassword,
       toDoItems: [],
     })
+    newUser.save()
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_TOKEN)
     res.status(200).json({

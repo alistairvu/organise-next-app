@@ -15,12 +15,13 @@ const addItem = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ message: "No matching users found" })
     }
 
-    const newItem = await ToDo.create({
+    const newItem = new ToDo({
       _id: mongoose.Types.ObjectId(itemId),
       content: content,
       isCompleted: false,
       user: user._id,
     })
+    await newItem.save()
 
     user.toDoItems.push(newItem._id)
     await user.save()
