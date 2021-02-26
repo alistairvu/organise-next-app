@@ -1,4 +1,12 @@
-import { Box, Text, Stack, Flex, Spacer, Button } from "@chakra-ui/react"
+import {
+  Box,
+  Text,
+  Stack,
+  Flex,
+  Spacer,
+  Button,
+  Link as ChakraLink,
+} from "@chakra-ui/react"
 import { useState } from "react"
 import { FiMenu, FiX } from "react-icons/fi"
 import Link from "next/link"
@@ -41,22 +49,14 @@ export const Navbar = () => {
           <>
             <Text>Hello {userInfo.name.split(" ")[0]}!</Text>
             <Link href="/">Home</Link>
-            <Button
-              colorScheme="green"
-              onClick={() => dispatch(logoutUser())}
-              cursor="pointer"
-            >
+            <ChakraLink onClick={() => dispatch(logoutUser())}>
               Logout
-            </Button>
+            </ChakraLink>
           </>
         ) : (
           <>
             <Link href="/register">Register</Link>
-            <Link href="/login">
-              <Button colorScheme="green" variant="solid">
-                Log In
-              </Button>
-            </Link>
+            <Link href="/login">Log In</Link>
           </>
         )}
       </NavLinkContainer>
@@ -76,9 +76,9 @@ const NavLinkContainer = ({ children, isOpen }: NavLinkContainerProps) => {
       flexBasis={{ base: "100%", md: "auto" }}
     >
       <Stack
-        spacing={8}
-        align="center"
-        justify={{ base: "center", md: "flex-end" }}
+        spacing={4}
+        align={{ base: "flex-start", md: "center" }}
+        justify={{ base: "space-between", md: "flex-end" }}
         direction={{ base: "column", md: "row" }}
         pt={{ base: 4, md: 0 }}
       >
